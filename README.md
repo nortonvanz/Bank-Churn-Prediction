@@ -3,6 +3,15 @@
 ## Summary 
 - [1. Project Planning](#1-project-planning)
 - [2. Data Dictionary](#2-data-dictionary)
+- [3. Data Cleaning](#3-data-cleaning)
+- [4. Descriptive Statistics](#4-descriptive-statistics)
+- [5. Feature Engineering](#5-feature-engineering)
+- [6. Data Preparation](#6-data-preparation)
+- [7. Feature Selection](#7-feature-selection)
+- [8. Machine Learning](#8-machine-learning)
+- [9. Business and Financial Results](#9-business-and-financial-results)
+- [10. Improvements for Next Cycles](#10-improvements-for-next-cycles)
+- [11. Project Usage Instructions](#11-project-usage-instructions)
 
 ## 1. Project Planning
 
@@ -95,7 +104,7 @@ Analysis:
 The analysis was performed using Sweetviz plots. They can be seen on EDA notebook.
 
 
-## 5. Feature Engineering:
+## 5. Feature Engineering
 4 features were created:
 - geo_gender: Creates gender vs geography groups, resulting in a new feature that summarizes the information content of both.
 - age_group: Create age groups from age, calibrating to make them balanced. In this way, in the case of ages that are underrepresented, the bin may make it easier for the model to recognize them. 
@@ -103,18 +112,18 @@ The analysis was performed using Sweetviz plots. They can be seen on EDA noteboo
 - product_group: Create a scale for num_of_product: "C" for 2 products, "B" for 1 product, "A" for 3 or 4 products (3 groups), in order to create a kind of scale by churn level, helping models to identify churn.
 
 
-## 6. Data Preparation:
+## 6. Data Preparation
 Feature Scaling and Transformations were be applied to the dataset, to avoid biased results, accelerate training, and improve interpretability.
 
-### 6.1 Feature Scaling:
+### 6.1 Feature Scaling
 Feature Scaling: makes numerical features comparable, preventing dominance of larger-scale features, and iproves model convergence.
 - A Shapiro-Wilk test on numerical features were used, to identify which are normally distributed. Since none was, a MinMaxScaler were used.
 
-### 6.2 Transformations:
+### 6.2 Transformations
 Transformations: handles categorical data, fixes non-linear relationships and reduces data skewness.
 - OneHotEncoder was used for first cycle due to deadline restrictions, but specific transformations for each feature on next cycle were mentioned, with its benefits.
 
-### 7. Feature Selection
+## 7. Feature Selection
 An ExtraTreesClassifier were used to rank features by importance.
 - This reduces model complexity, improves model performance, and makes ir more interpretable.
 - The ExtraTreesClassifier builds 50 random decision trees, and each tree votes on which features are important, so the average importance of each feature is calculated.
@@ -126,11 +135,12 @@ Features selected:
 ------------------------------
 ## 8. Machine Learning
 BayesSearchCV was used to evaluate different ML and its hyperparameters with Cross Validation.
+
 It uses Bayesian Optimization to find the best hyperparameters, through Exploration vs Exploitation: 
 - Exploration: Trying new areas of the parameter space.
 - Exploitation: Focusing on areas known to give good results.
 
-### 8.1 Models Evaluated: 
+### 8.1 Models Evaluated
 3 ML models with different approaches were tried:
 - Linear Discriminant Analysis (LDA): linear classifier, similar to Logistic Regression. It can handle class imbalance through prior probabilities adjustment. It is widely used supervised algorithms for churn prediction.
 - RandomForestClassifier approach: builds multiple decision trees in parallel independently.
@@ -147,13 +157,14 @@ Cons:
 - Requires a more attentive hyperparameter tuning
 - Works best with larger datasets than this (8k rows)
 
-### 8.2 Evaluation Metric:
+### 8.2 Evaluation Metric
 F1 score will be the metric used, considering:
 - Business team needs a good balance between finding actual churners (recall) and avoiding false alarms (precision).
 - Focuses on minority class (churners) performance without being skewed by majority class dominance (unbalanced dataset: 20% churned).
 
-### 8.3 Model Explainability:
+### 8.3 Model Explainability
 The model predictions were explained with SHAP (SHapley Additive exPlanations), using TreeExplainer, because it is optimized for tree-based models like XGBoost.
+
 Details about how to interpret the summary plot and individual predictions can be found on modeling notebook.
 
 #### 8.3.1 Summary Plot
@@ -165,6 +176,7 @@ Exemple of Churn Interpretation:
 - product_group_A: customers on group A (they have 3 or 4 products) have higher churn probability (all red dots are on right)
 
 Summary plot:
+
 ![](img/shap_summary.png)
 
 
@@ -179,10 +191,11 @@ Example of Churn Interpretation for one customer's prediction:
   - balance: customers with low balance values have lower churn probability.
 
 Individual Predictions:
+
 ![](img/shap_individual.png)
 
 
-### 8.4 Churn Predictions:
+### 8.4 Churn Predictions
 The XGBoost was the choosen model, and a complete pipeline was created in order to predict churn of test data. The process createt was:
 - Rename Features
 - Feature Filtering
@@ -194,27 +207,17 @@ The XGBoost was the choosen model, and a complete pipeline was created in order 
 Test data were passed to the model, and a F1-score for class 1 of 0.58 were obtained. It means the model has 58% effectiveness in identifying true churners in this first cycle.
 
 The best model were retrained with all train + test data, in order to improve performance for final prediction (abandono_teste.csv).
+
 Churn prediction of the 1000 rows were made, and exporeted. It is available in data/result/abandono_result.csv.
 
 ## 9.0 Business and Financial Results
 
 ### 9.1 Busness Results
-Here, the business results of this project will be shown.
-
-Business problem: 
-- The financial institution has an estimated churn retention rate of 28%/year.
-- A new retention goal was announced for next year, which is 40%. To achieve this, the customer retention team needs a churn prediction model.
-- The model must be at least 55% effective in identifying true churners, while avoiding false positives.
-- This way, the retention team will act using the model to reverse at least 80% of churns, which results in 44% retention, reaching the goal.
-
-Business results:
 - The fraud prediction model in it's first cycle delivers 58% effective in identifying true churners.
 - The result expected by retention team was a model with at least 55% effectiveness, wich was attained.
 - Now the project can be put into production, and the retention team can then start using it.
 
 ### 9.2 Financial Results
-Here, the financial results of this churn prediction model will be estimated.
-
 Premisses:
 - Model effectiveness for churners (F1-score) is 0.58.
 - Company has a base of 10 million customers.
