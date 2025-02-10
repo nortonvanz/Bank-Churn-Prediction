@@ -28,14 +28,14 @@
 ### 1.3 Evaluation metric: F1 score 
 - F1 score will be the metric used with cross-validation, considering:
     - The business team needs a good balance between finding actual churners (recall) and avoiding false alarms (precision). 
-    - Focuses on minority class (churners) performance without being skewed by majority class dominance (unbalanced dataset: 20% churned).
+    - Focuses on minority class (churners) performance without being skewed by majority class dominance (imbalanced dataset: 20% churned).
 
 ### 1.4 Methodology: CRISP-DM
 - Cross Industry Standard Process for Data Mining methodology will be used, being cyclical and flexible, in order to take advantage of best market practices.
 
 ### 1.5 Project deliverables:
-- EDA Notebook: [notebooks/v1_EDA.ipynb]
-    - Statistical analysis of data.
+- EDA Notebook: [notebooks/v2_EDA.ipynb]
+    - Univariate, bivariate and multivariate statistical analysis of data.
     - Business Insights from variables.
 - Modeling Notebook: [notebooks/v1_modeling.ipynb] 
     - Churn prediction model with a baseline > 0.55 on test data: 55% effectiveness in identifying true churners.
@@ -71,9 +71,12 @@ Process:
 - DTypes, missings and duplicates were inspected.
 - Irrelevant features were removed: row_number', 'customer_id' and 'surname'.
 
-## 4. Descriptive Statistics
+## 4. EDA
 
 ### 4.1 Univariate Analysis 
+
+Descriptive Analysis. 
+
 Composed of:
 - Location Metrics (central tendency), that show where the data is centered, such as mean and median.
 - Variability Metrics (cispersion), that reveal how the values are spread around that center, such as standard deviation, quantiles, skewness and kurtosis.
@@ -92,17 +95,21 @@ Below, all the numerical variables in the dataset will be analyzed.
 | estimated_salary |   8000     | 199902.4 |    90.1  | 51986.1	  | 100487.7|149216.3  | 199992.5  | 100467.8  | 57274.2  |    -0.0   |     -1.2  | 
 
 Analysis:
-- age: has positive kurtosis, so there is a peak arround the median.
+- age: has positive kurtosis, so there is a spike arround the median.
 - balance: quant25 shows 0.00, meaning at least 25% of data equals to zero. No negative values were found.
 - num_of_products: max is 4, but median is 1, so at least 50% of customers have only 1 product.
 - has_cr_card: negative skew shows that the concentration of values is high, so most customers have a credit card.
 - estimated_salary: skew 0.00 shows that estimated salaries are not concentrated in low or high values, having an uniform distribuition.
 - exited: positive skew shows that the concentration of values is low, with most values being zero, as expected for a churn problem.							
 
+Target, numerical and categorical analysis can be seen in details, on EDA notebook.
 
-### 4.2 Bivariate and Multivariate Analysis
-The analysis was performed using Sweetviz plots. They can be seen on EDA notebook.
+### 4.2 Bivariate Analysis
+The analysis was performed using Sweetviz plots in EDA V1. 
+In V2, complements in bivariate analysis were implemented, with improvements in data interpretation, creation and validation of hypotheses, and new ideas for feature engineering.
 
+### 4.3 Multivariate Analysis
+In V2, a multivariate analysis were implemented, with Pearson's correlation and Cramér's V.
 
 ## 5. Feature Engineering
 4 features were created:
@@ -110,7 +117,6 @@ The analysis was performed using Sweetviz plots. They can be seen on EDA noteboo
 - age_group: Create age groups from age, calibrating to make them balanced. In this way, in the case of ages that are underrepresented, the bin may make it easier for the model to recognize them. 
 - balance_group: Create a binary indicator for balance: center vs tail (tail: except customers with a balance = 0, those with less than 50k and with more than 200k churned more vs rest).
 - product_group: Create a scale for num_of_product: "C" for 2 products, "B" for 1 product, "A" for 3 or 4 products (3 groups), in order to create a kind of scale by churn level, helping models to identify churn.
-
 
 ## 6. Data Preparation
 Feature Scaling and Transformations were be applied to the dataset, to avoid biased results, accelerate training, and improve interpretability.
@@ -160,7 +166,7 @@ Cons:
 ### 8.2 Evaluation Metric
 F1 score will be the metric used, considering:
 - Business team needs a good balance between finding actual churners (recall) and avoiding false alarms (precision).
-- Focuses on minority class (churners) performance without being skewed by majority class dominance (unbalanced dataset: 20% churned).
+- Focuses on minority class (churners) performance without being skewed by majority class dominance (imbalanced dataset: 20% churned).
 
 ### 8.3 Model Explainability
 The model predictions were explained with SHAP (SHapley Additive exPlanations), using TreeExplainer, because it is optimized for tree-based models like XGBoost.
@@ -236,9 +242,8 @@ Estimated Savings using the model: RS 243.000.000/year.
 
 Considering the model is on cycle 1, and there is a lot of opportunity to improve it, the result can be even greater in the future.
 
+
 ## 10 Improvements for Next Cycles
-**EDA:**
-  - Build the analyses via Python, so that I have control over the size of the bins and can perform more detailed inspections of the data.
 
 **Modeling:**
 
