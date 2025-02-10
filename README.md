@@ -4,7 +4,7 @@
 - [1. Project Planning](#1-project-planning)
 - [2. Data Dictionary](#2-data-dictionary)
 - [3. Data Cleaning](#3-data-cleaning)
-- [4. Descriptive Statistics](#4-descriptive-statistics)
+- [4. Exploratory Data Analysis](#4-exploratory-data-analysis)
 - [5. Feature Engineering](#5-feature-engineering)
 - [6. Data Preparation](#6-data-preparation)
 - [7. Feature Selection](#7-feature-selection)
@@ -71,7 +71,7 @@ Process:
 - DTypes, missings and duplicates were inspected.
 - Irrelevant features were removed: row_number', 'customer_id' and 'surname'.
 
-## 4. EDA
+## 4. Exploratory Data Analysis
 
 ### 4.1 Univariate Analysis 
 
@@ -102,14 +102,14 @@ Analysis:
 - estimated_salary: skew 0.00 shows that estimated salaries are not concentrated in low or high values, having an uniform distribuition.
 - exited: positive skew shows that the concentration of values is low, with most values being zero, as expected for a churn problem.							
 
-Target, numerical and categorical analysis can be seen in details, on EDA notebook.
+Target, numerical and categorical analysis can be seen in details in in V2 of the EDA notebook.,
 
 ### 4.2 Bivariate Analysis
 The analysis was performed using Sweetviz plots in EDA V1. 
-In V2, complements in bivariate analysis were implemented, with improvements in data interpretation, creation and validation of hypotheses, and new ideas for feature engineering.
+In EDA V2, complements in bivariate analysis were implemented, with improvements in data interpretation, creation and validation of hypotheses, and new ideas for feature engineering.
 
 ### 4.3 Multivariate Analysis
-In V2, a multivariate analysis were implemented, with Pearson's correlation and Cramér's V.
+In EDA V2, a multivariate analysis was implemented, with Pearson's correlation and Cramér's V.
 
 ## 5. Feature Engineering
 4 features were created:
